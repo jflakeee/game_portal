@@ -1,3 +1,5 @@
 node_modules
 dist
 public/games
+.env.local
+.env.*.local
