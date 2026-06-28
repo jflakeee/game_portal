@@ -1,5 +1,5 @@
 // scripts/sync-games.mjs
-import { cp, mkdir, rm } from 'node:fs/promises'
+import { cp, mkdir, rm, readFile, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -10,13 +10,13 @@ const dest = join(root, 'public', 'games')
 const SOURCES = [
   { slug: 'hexa-merge',  src: 'D:/htdocs/hexa_merge/hexa_merge_web', include: ['index.html', 'src'] },
   { slug: 'sudoku',      src: 'D:/htdocs/sudoku/sudoku_clone/src' },
-  { slug: 'number-drop', src: 'D:/htdocs/drop_merge/number_drop/frontend/dist' },
+  { slug: 'number-drop', src: 'D:/htdocs/drop_merge/number_drop/frontend/dist', rewrite: { file: 'index.html', from: '/number_drop/', to: './' } },
 ]
 
 await rm(dest, { recursive: true, force: true })
 await mkdir(dest, { recursive: true })
 
-for (const { slug, src, include } of SOURCES) {
+for (const { slug, src, include, rewrite } of SOURCES) {
   if (!existsSync(src)) {
     console.error(`[sync-games] MISSING source: ${src}`)
     process.exitCode = 1
@@ -37,6 +37,13 @@ for (const { slug, src, include } of SOURCES) {
   } else {
     await cp(src, join(dest, slug), { recursive: true })
     console.log(`[sync-games] ${slug} <- ${src}`)
+  }
+  if (rewrite) {
+    const rewritePath = join(dest, slug, rewrite.file)
+    const original = await readFile(rewritePath, 'utf8')
+    const rewritten = original.split(rewrite.from).join(rewrite.to)
+    await writeFile(rewritePath, rewritten, 'utf8')
+    console.log(`[sync-games] rewrote ${slug}/${rewrite.file}: ${rewrite.from} -> ${rewrite.to}`)
   }
 }
 console.log('[sync-games] done')
