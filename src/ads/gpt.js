@@ -34,6 +34,6 @@ export async function displayAd({ variant, domId }) {
     googletag.display(domId)
   })
   return () => {
-    if (slot) googletag.cmd.push(() => googletag.destroySlots([slot]))
+    googletag.cmd.push(() => { if (slot) googletag.destroySlots([slot]) })
   }
 }
