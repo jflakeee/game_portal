@@ -18,7 +18,7 @@ export default function Play() {
         <span>{game.title}</span>
       </div>
       <PlayLayout>
-        <GameFrame src={game.playPath} title={game.title} />
+        <GameFrame key={slug} src={game.playPath} title={game.title} />
       </PlayLayout>
     </div>
   )
