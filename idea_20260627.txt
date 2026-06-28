@@ -1,0 +1,14 @@
+게임 구현물을 모아 소개해주는 게임 포털사이트 구축
+
+벤치마크 사이트
+https://h5.g123.jp
+
+모토
+강제 재생 광고 금지
+예측 가능한 광고만 부착
+사용자를 위한 편의성과 즐거움
+
+게임 구현물 프로젝트 경로
+D:\htdocs\hexa_merge
+D:\htdocs\sudoku
+D:\htdocs\drop_merge
