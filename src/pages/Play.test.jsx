@@ -20,4 +20,14 @@ describe('Play', () => {
     expect(screen.getByLabelText('광고')).toBeInTheDocument()
     expect(getRecentlyPlayed()).toContain('sudoku')
   })
+
+  it('게임이 보낸 score 메시지를 기록한다', async () => {
+    const { getBestScore } = await import('../store/playerStore.js')
+    renderAt('sudoku')
+    window.dispatchEvent(new MessageEvent('message', {
+      data: { type: 'score', value: 4321 },
+      origin: window.location.origin,
+    }))
+    expect(getBestScore('sudoku')).toBe(4321)
+  })
 })
