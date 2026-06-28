@@ -10,7 +10,7 @@
 - **6개 페이지** — 메인(히어로 캐러셀·인기·신규·랭킹) / 전체 게임(검색·태그 필터) / 게임 상세 / 풀스크린 플레이 / 내 기록 / 소개(광고 약속).
 - **무백엔드 개인 기록** — 최근 플레이·즐겨찾기·개인 최고점을 LocalStorage에 저장.
 - **점수/게임오버 브리지** — 게임이 `postMessage({type:'score'|'gameover'})`를 보내면 포털이 최고점 기록 + 정책 기반 인터스티셜을 처리(게임이 신호를 안 보내면 안전하게 no-op).
-- **모토 기반 광고 정책** — 상시 배너(플레이 중 항상, 게임 영역 비침범) / 인터스티셜(게임오버 시점만, 첫 광고 지연 + 쿨다운) / 보상형(opt-in). 강제 전면·자동재생 영상 없음.
+- **모토 기반 광고 정책** — Google AdSense 기반. **승인 전에는 광고 자리를 완전히 숨김**(플레이스홀더·예약 공간 없음), 승인 후 배너 표시. 인터스티셜은 게임오버 시점만(첫 광고 지연 + 쿨다운). 강제 전면·자동재생 영상 없음.
 
 ## 🛠 기술 스택
 
@@ -47,7 +47,7 @@ npm test            # 전체 테스트 (Vitest)
 src/
 ├─ data/games.js        # 게임 레지스트리(단일 소스) + 셀렉터
 ├─ store/playerStore.js # LocalStorage: 최근 플레이/즐겨찾기/최고점
-├─ ads/                 # adConfig·gpt(GPT 로더)·adPolicy·AdSlot
+├─ ads/                 # adConfig·adsense(로더)·adPolicy·AdSlot
 ├─ play/gameBridge.js   # game→portal postMessage 파서
 ├─ components/          # Navbar/Footer/GameCard/GameRow/HeroCarousel/
 │                       # RankingList/SearchBar/TagFilter/GameFrame/
