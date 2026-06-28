@@ -1,20 +1,19 @@
 import { describe, it, expect } from 'vitest'
-import { isAdsEnabled, adUnitPath, adSizes, AD_UNITS } from './adConfig.js'
+import { isAdsEnabled, isSlotReady, adSlotId, adSize, adFormat, adsenseClient } from './adConfig.js'
 
-describe('adConfig', () => {
-  it('VITE_GPT_NETWORK 미설정 시 광고 비활성', () => {
+describe('adConfig (AdSense)', () => {
+  it('env 미설정 시 광고 비활성', () => {
     expect(isAdsEnabled()).toBe(false)
+    expect(adsenseClient()).toBe('')
   })
-  it('알려진 variant의 사이즈를 반환', () => {
-    expect(adSizes('persistent-banner')).toEqual([[728, 90], [320, 50]])
-    expect(adSizes('detail-rectangle')).toEqual([[300, 250]])
-    expect(adSizes('unknown')).toEqual([])
+  it('미승인 상태에서는 어떤 슬롯도 표시 불가', () => {
+    expect(isSlotReady('persistent-banner')).toBe(false)
+    expect(isSlotReady('detail-rectangle')).toBe(false)
+    expect(adSlotId('persistent-banner')).toBeNull()
   })
-  it('비활성 상태에서 adUnitPath는 null', () => {
-    // network 미설정이므로 경로 생성 불가
-    expect(adUnitPath('persistent-banner')).toBeNull()
-  })
-  it('AD_UNITS는 두 variant를 가진다', () => {
-    expect(Object.keys(AD_UNITS).sort()).toEqual(['detail-rectangle', 'persistent-banner'])
+  it('variant별 사이즈/포맷', () => {
+    expect(adSize('persistent-banner')).toEqual({ width: '100%', height: '90px' })
+    expect(adSize('detail-rectangle')).toEqual({ width: '300px', height: '250px' })
+    expect(adFormat('detail-rectangle')).toBe('rectangle')
   })
 })

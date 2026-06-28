@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getGameBySlug } from '../data/games.js'
 import { recordPlay, recordScore } from '../store/playerStore.js'
 import { canShowInterstitial } from '../ads/adPolicy.js'
+import { isAdsEnabled } from '../ads/adConfig.js'
 import { parseGameMessage } from '../play/gameBridge.js'
 import GameFrame from '../components/GameFrame.jsx'
 import PlayLayout from '../components/PlayLayout.jsx'
@@ -25,7 +26,7 @@ export default function Play() {
       if (msg.type === 'score') recordScore(slug, msg.value)
       if (msg.type === 'gameover') {
         const now = Date.now()
-        if (canShowInterstitial({ sessionStartMs: sessionStartRef.current, lastAdMs: lastAdRef.current, nowMs: now })) {
+        if (isAdsEnabled() && canShowInterstitial({ sessionStartMs: sessionStartRef.current, lastAdMs: lastAdRef.current, nowMs: now })) {
           lastAdRef.current = now
           setInterstitial(true)
         }

@@ -69,14 +69,16 @@ public/
 
 ## 📢 광고 (선택적 활성화)
 
-광고는 기본적으로 **"광고" 라벨 플레이스홀더**로 렌더되어 모토(예측 가능·비강제)를 지킵니다. 실제 Google Publisher Tag(GPT) 광고를 켜려면 퍼블리셔 네트워크 코드를 환경변수로 제공하세요:
+광고는 **Google AdSense** 기반이며, AdSense 승인 전(env 미설정)에는 광고 자리가 **완전히 숨겨집니다** — 플레이스홀더도 예약 공간도 없음. 승인 후 아래 세 값을 `.env.local`에 설정하고 빌드하면 배너 광고가 활성화됩니다:
 
 ```bash
 # .env.local
-VITE_GPT_NETWORK=/22639388115   # 본인의 GAM 네트워크 코드
+VITE_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX   # AdSense 게시자 ID
+VITE_ADSENSE_SLOT_BANNER=1234567890           # 플레이 배너 광고 단위 ID
+VITE_ADSENSE_SLOT_RECT=0987654321             # 상세 페이지 직사각형 광고 단위 ID
 ```
 
-설정 시 `src/ads/gpt.js`가 `gpt.js`를 지연 로드하고 `AD_UNITS`(`play_banner`, `detail_mrec`) 슬롯을 게재합니다. 미설정 시 플레이스홀더로 폴백합니다. (대안: Google H5 Games Ads / AdSense — 게임 빌드 내부에 SDK 연동.)
+세 값이 모두 설정되어야 해당 슬롯이 표시됩니다. 하나라도 비어 있으면 그 슬롯은 숨겨집니다.
 
 ## 📐 설계 문서
 
