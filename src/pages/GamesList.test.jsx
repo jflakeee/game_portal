@@ -10,6 +10,6 @@ describe('GamesList', () => {
     expect(screen.getByText('Sudoku')).toBeInTheDocument()
     await userEvent.type(screen.getByLabelText('게임 검색'), 'hexa')
     expect(screen.queryByText('Sudoku')).not.toBeInTheDocument()
-    expect(screen.getByText('Hexa Merge')).toBeInTheDocument()
+    expect(screen.getByText('Hexa Merge Base')).toBeInTheDocument()
   })
 })
